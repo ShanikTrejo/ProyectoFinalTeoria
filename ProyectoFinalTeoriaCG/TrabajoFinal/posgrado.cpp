@@ -1,8 +1,8 @@
 //Semestre 2019 - 1
 //************************************************************//
 //************** Alumno (s): *********************************//
-//******************** GALV罭 HERN罭DEZ KARINA ***************//
-//******************** HEREDIA C覴DOVA TANIA ROC蚈 ***********//
+//******************** GALV脕N HERN脕NDEZ KARINA ***************//
+//******************** HEREDIA C脫RDOVA TANIA ROC脥O ***********//
 //******************** TREJO LUNA EVA MARION SHANIK **********//
 //************** VISUAL STUDIO 2015 **************************//
 //************************************************************//
@@ -10,7 +10,8 @@
 #include "texture.h"
 #include "figuras.h"
 #include "Camera.h"
-
+//ST: Voy a agregar nuevas lineas 
+#include "Noise.h"
 #include "cmodel/CModel.h"
 //Solo para Visual Studio 2015
 #if (_MSC_VER == 1900)
@@ -25,6 +26,22 @@ static GLuint ciudad_display_list;	//Display List for the Monito
 float posX = 0, posY = 2.5, posZ = -3.5, rotRodIzq = 0;
 float giroMonito = 0;
 float movBrazoDer = 0.0;
+// Camera
+
+bool isometric = false;
+float angle = 0.0f;
+
+float lx = 0.0f, lz = -1.0f;
+
+float x = 0.0f, z = 5.0f;
+
+
+float deltaAngle = 0.0f;
+float deltaMove = 0;
+int xOrigin = -1;
+float up_view = 0.0f;
+float eye_y = 1.8f;
+//
 
 #define MAX_FRAMES 9
 int i_max_steps = 90;
@@ -122,7 +139,7 @@ CFiguras fig11; //piso azulejo
 
 CModel kit;
 
-//Animaci髇 del coche
+//Animaci贸n del coche
 float angRot = 0.0;
 float movKitX = 0.0;
 float movKitZ = 0.0;
@@ -644,7 +661,38 @@ GLuint createDL()
 
 	return(ciudadDL);
 }
+//Para el Mouse
+void mouseMove(int x, int y) {
 
+	// this will only be true when the left button is down
+	if (xOrigin >= 0) {
+
+		// update deltaAngle
+		deltaAngle = (x - xOrigin) * 0.001f;
+
+		// update camera's 
+		lx = sin(angle + deltaAngle);
+
+		//lx = 1;
+		lz = -cos(angle + deltaAngle);
+	}
+}
+
+void mouseButton(int button, int state, int x, int y) {
+
+	// only start motion if the left button is pressed
+	if (button == GLUT_LEFT_BUTTON) {
+
+		// when the button is released
+		if (state == GLUT_UP) {
+			angle += deltaAngle;
+			xOrigin = -1;
+		}
+		else {// state = GLUT_DOWN
+			xOrigin = x;
+		}
+	}
+}
 void InitGL(GLvoid)     // Inicializamos parametros
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Negro de fondo	
@@ -1042,13 +1090,13 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 
 	case 'O':		//  
 	case 'o':
-		g_fanimacion ^= true; //Activamos/desactivamos la animac韔n
+		g_fanimacion ^= true; //Activamos/desactivamos la animac铆on
 		circuito = false;
 		break;
 
 	case 'i':		//  
 	case 'I':
-		circuito ^= true; //Activamos/desactivamos la animac韔n
+		circuito ^= true; //Activamos/desactivamos la animac铆on
 		g_fanimacion = false;
 		break;
 
@@ -1215,17 +1263,18 @@ void menu(int id)
 int main(int argc, char** argv)   // Main Function
 {
 	int submenu;
-
+//Para musica de fondo
+	PlaySound(TEXT("Sound.wav"), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 	glutInit(&argc, argv); // Inicializamos OpenGL
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
-	glutInitWindowSize(500, 500);	// Tama駉 de la Ventana
+	glutInitWindowSize(500, 500);	// Tama帽o de la Ventana
 	glutInitWindowPosition(0, 0);	//Posicion de la Ventana
 	glutCreateWindow("PROYECTO FINAL"); // Nombre de la Ventana
 									 //glutFullScreen     ( );         // Full Screen
 	InitGL();						// Parametros iniciales de la aplicacion
-	glutDisplayFunc(display);  //Indicamos a Glut funci髇 de dibujo
-	glutReshapeFunc(reshape);	//Indicamos a Glut funci髇 en caso de cambio de tamano
-	glutKeyboardFunc(keyboard);	//Indicamos a Glut funci髇 de manejo de teclado
+	glutDisplayFunc(display);  //Indicamos a Glut funci贸n de dibujo
+	glutReshapeFunc(reshape);	//Indicamos a Glut funci贸n en caso de cambio de tamano
+	glutKeyboardFunc(keyboard);	//Indicamos a Glut funci贸n de manejo de teclado
 	glutSpecialFunc(arrow_keys);	//Otras
 	glutIdleFunc(animacion);
 
