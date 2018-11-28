@@ -26,6 +26,7 @@ static GLuint ciudad_display_list;	//Display List for the Monito
 float posX = 0, posY = 2.5, posZ = -3.5, rotRodIzq = 0;
 float giroMonito = 0;
 float movBrazoDer = 0.0;
+float movManoDer = 0.0;
 // Camera
 
 bool isometric = false;
@@ -596,67 +597,60 @@ void monito()
 				   glTranslatef(0.75, 0, 0);
 				   fig7.esfera(0.25, 12, 12, textMetal.GLindex);//--->Muñeca
 				glPopMatrix();
+	glPushMatrix();
+				   glTranslatef(1.7, 0, 1.28);
+	
+				   glRotatef(movManoDer, 0.0, 0.0, 1.0);
+				   glRotatef(-95, 0, 1, 0);
+				   glTranslatef(0.5, 0, 0);
+				   fig7.prisma(0.45, 0.35, 0.15, textMetal.GLindex);//--->Pinza 1
+				glPopMatrix();
+				glPushMatrix();
+				   glTranslatef(1.7, 0, 1.28);
+				   glRotatef(movManoDer, 0.0, 0.0, 1.0);
+				   glRotatef(15, 0, 1, 0);
+				   glTranslatef(0.5, 0, 0);
+				   fig7.prisma(0.45, 0.35, 0.15, textMetal.GLindex);//--->Pinza 2
+				glPopMatrix();
+	       
 
 	        glPopMatrix();
 
-	glPushMatrix(); //Brazo izquierdo <--
-	glTranslatef(-1.25, 0.65, 0);
-	fig7.esfera(0.5, 12, 12, 0);
-	glPushMatrix();
-	glTranslatef(-0.25, 0, 0);
-	glRotatef(45, 0, 1, 0);
-	glRotatef(25, 0, 0, 1);
-	glRotatef(25, 1, 0, 0);
-	glTranslatef(-0.75, 0, 0);
-	fig7.prisma(0.7, 1.5, 0.7, 0);
-	glPopMatrix();
-	glPopMatrix();
+		glPushMatrix();
+			   glTranslatef(-1, 0.85, 0);
+			   fig7.esfera(0.25, 12, 12, textMetal.GLindex);//--->Hombro
+			   glPushMatrix();
+			       glTranslatef(0.05, 0, 0);
+			       glRotatef(45, 0, 1, 0);
+			       glRotatef(25, 0, 0, 1);
+			       glRotatef(25, 1, 0, 0);
+			       glTranslatef(-0.75, 0, 0);
+			       fig7.prisma(0.45, 0.85, 0.45, textMetal.GLindex);//--->Brazo
+			   glPopMatrix();
+			   glPushMatrix();
+			       glTranslatef(-0.25, -0.15, 0.45);
+			       glRotatef(45, 0, 1, 0);
+			       glRotatef(25, 0, 0, 1);
+			       glRotatef(25, 1, 0, 0);
+			       glTranslatef(-0.75, 0, 0);
+			       fig7.esfera(0.25, 12, 12, textMetal.GLindex);//--->Brazo
+			   glPopMatrix();
+			glPopMatrix();
 
 	glPushMatrix();//Cintura
-	glColor3f(0, 0, 1);
-	glTranslatef(0, -1.5, 0);
-	fig7.prisma(1, 2, 1, 0);
+	
+	glTranslatef(0, -2, 0);
+	glDisable(GL_LIGHTING);
+	fig7.prisma(2.0, 0.75, 1, textMetal.GLindex);
+	glEnable(GL_LIGHTING);
 
-	glPushMatrix(); //Pie Derecho -->
-	glTranslatef(0.75, -0.5, 0);
-	glRotatef(-15, 1, 0, 0);
-	glTranslatef(0, -0.5, 0);
-	fig7.prisma(1.0, 0.5, 1, 0);
 
-	glPushMatrix();
-	glTranslatef(0, -0.5, 0);
-	glRotatef(15, 1, 0, 0);
-	glTranslatef(0, -0.75, 0);
-	fig7.prisma(1.5, 0.5, 1, 0);
-
-	glPushMatrix();
-	glTranslatef(0, -0.75, 0.3);
-	fig7.prisma(0.2, 1.2, 1.5, 0);
-	glPopMatrix();
-	glPopMatrix();
+	glPushMatrix(); //Base
+	glTranslatef(0, -1, 0);
+	fig7.prisma(0.2, 1.2, 1.5, textMetal.GLindex);
 	glPopMatrix();
 
-
-	glPushMatrix(); //Pie Izquierdo -->
-	glTranslatef(-0.75, -0.5, 0);
-	glRotatef(-5, 1, 0, 0);
-	glTranslatef(0, -0.5, 0);
-	fig7.prisma(1.0, 0.5, 1, 0);
-
-	glPushMatrix();
-	glTranslatef(0, -0.5, 0);
-	glRotatef(15 + rotRodIzq, 1, 0, 0);
-	glTranslatef(0, -0.75, 0);
-	fig7.prisma(1.5, 0.5, 1, 0);
-
-	glPushMatrix();
-	glTranslatef(0, -0.75, 0.3);
-	fig7.prisma(0.2, 1.2, 1.5, 0);
-	glPopMatrix();
-	glPopMatrix();
-	glPopMatrix();
-
-
+	
 	glPopMatrix();
 
 
