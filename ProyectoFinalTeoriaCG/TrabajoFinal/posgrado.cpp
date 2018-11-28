@@ -119,7 +119,7 @@ CTexture text6;	//pared piedra
 CTexture text9; //pared blanca
 CTexture text10; //pared con ventanas
 CTexture text11; //piso azulejo
-
+CTexture textMetal;//METAL DE COLORES<<Justina>>
 CTexture tree;
 
 CFiguras fig1; //cielo azul
@@ -546,35 +546,58 @@ void arbol_blend()
 								//glEnable(GL_DEPTH_TEST);    // Turn Depth Testing On
 	glEnable(GL_LIGHTING);
 }
-
-/*
+//Todavía no acabo (Justina parte derecha)
 void monito()
 {
 	//glNewList(1, GL_COMPILE);
 	glPushMatrix();//Pecho
-	glScalef(0.5, 0.5, 0.5);
-	fig7.prisma(2.0, 2.0, 1, text2.GLindex);
+	glScalef(0.25, 0.25, 0.25); 
+	glDisable(GL_LIGHTING);
+	fig7.prisma(2.0, 1.5, 1, textMetal.GLindex);
+	glEnable(GL_LIGHTING);
 
-	glPushMatrix();//Cuello
-	glTranslatef(0, 1.0, 0.0);
-	fig7.cilindro(0.25, 0.25, 15, 0);
-	glPushMatrix();//Cabeza
-	glTranslatef(0, 1.0, 0);
-	fig7.esfera(0.75, 15, 15, 0);
-	glPopMatrix();
-	glPopMatrix();
+	   glPushMatrix();//Cuello
+	     glTranslatef(0, 1, 0.0);
+	     fig7.cilindro(0.25, 0.25, 15, textMetal.GLindex);
+	        glPushMatrix();//Cabeza
+	        glTranslatef(0,1, 0);
+	        fig7.esfera(0.75, 15, 15, textMetal.GLindex);
+	        glPopMatrix();
+	   glPopMatrix();
 
-	glPushMatrix(); //Brazo derecho-->
-	glTranslatef(1.25, 0.65, 0);
-	fig7.esfera(0.5, 12, 12, 0);
-	glPushMatrix();
-	glTranslatef(0.25, 0, 0);
-	glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
-	glRotatef(-45, 0, 1, 0);
-	glTranslatef(0.75, 0, 0);
-	fig7.prisma(0.7, 1.5, 0.7, 0);
-	glPopMatrix();
-	glPopMatrix();
+           	glPushMatrix(); //Brazo derecho-->
+	        glTranslatef(1, 0.85, 0);
+	        fig7.esfera(0.25, 12, 12, textMetal.GLindex);//--->Hombro
+	            glPushMatrix();
+	                glTranslatef(0.25, 0, 0);
+	                glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
+	                glRotatef(-45, 0, 1, 0);
+	                glTranslatef(0.5, 0, 0);
+	                fig7.prisma(0.45, 0.85, 0.45, textMetal.GLindex);//--->Brazo
+	            glPopMatrix();
+				glPushMatrix();
+				   glTranslatef(0.55, 0, 0.25);
+				   glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
+				   glRotatef(-45, 0, 1, 0);
+				   glTranslatef(0.75, 0, 0);
+				   fig7.esfera(0.25,12,12, textMetal.GLindex);//--->Codo
+				glPopMatrix();
+				glPushMatrix();
+				   glTranslatef(1.2, 0, 0.78);
+				   glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
+				   glRotatef(-45, 0, 1, 0);
+				   glTranslatef(0.5, 0, 0);
+				   fig7.prisma(0.45, 0.85, 0.45, textMetal.GLindex);//--->Antebrazo
+				glPopMatrix();
+				glPushMatrix();
+				   glTranslatef(1.45, 0, 1);
+				   glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
+				   glRotatef(-45, 0, 1, 0);
+				   glTranslatef(0.75, 0, 0);
+				   fig7.esfera(0.25, 12, 12, textMetal.GLindex);//--->Muñeca
+				glPopMatrix();
+
+	        glPopMatrix();
 
 	glPushMatrix(); //Brazo izquierdo <--
 	glTranslatef(-1.25, 0.65, 0);
@@ -641,7 +664,7 @@ void monito()
 	glPopMatrix();
 	//glEndList();
 }
-*/
+
 
 GLuint createDL()
 {
@@ -756,6 +779,11 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	text11.LoadTGA("city/azulejo.tga"); //piso azulejo
 	text11.BuildGLTexture();
 	text11.ReleaseImage();
+	
+	textMetal.LoadTGA("city/metalc.tga");
+	textMetal.BuildGLTexture();
+	textMetal.ReleaseImage();
+
 
 	tree.LoadTGA("Tree.tga"); //arbol de escenario
 	tree.BuildGLTexture();
